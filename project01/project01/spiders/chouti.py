@@ -12,6 +12,7 @@ class ChoutiSpider(scrapy.Spider):
 
         print(response.text)
         response.xpath('//')
+        response.css()
 
 
 
