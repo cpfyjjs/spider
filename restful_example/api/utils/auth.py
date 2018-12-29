@@ -1,6 +1,6 @@
 # _*_coding:utf-8_*_
 # 用于认证和授权
-
+from rest_framework.views import APIView
 from rest_framework.authentication import BaseAuthentication
 
 class LoginAuth(BaseAuthentication):
