@@ -28,8 +28,9 @@ class Token(models.Model):
 
 class Movie(models.Model):
     name = models.CharField(verbose_name="片名",max_length=32)
-    poster = models.ImageField(upload_to="./imgs",verbose_name='海报')
-    movie_detail = models.OneToOneField(to='MovieDetail',on_delete=models.CASCADE)
+    date = models.IntegerField(verbose_name="年代")
+    location = models.CharField(verbose_name="国家/地区", max_length=32)
+    directors = models.CharField(verbose_name='导演', max_length=128)
 
     def __str__(self):
         return self.name

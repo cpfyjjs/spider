@@ -3,6 +3,8 @@
 from rest_framework.views import APIView
 from rest_framework.authentication import BaseAuthentication
 
+from api.models import User,Token
+
 class LoginAuth(BaseAuthentication):
     def authenticate(self, request):
         """
@@ -24,9 +26,16 @@ class LoginAuth(BaseAuthentication):
             (user,token)表示验证通过并设置用户名和TOKEN(request.user = user,request.auth = token)
             AuthenticationFailed异常
         """
+        token = request._request.COOKIES.get('token')
+        if not token:
+            return None
 
+        token_obj = Token.objects.filter(token=token).first()
+        if not token_obj:
+            return None
+        user = token_obj.user
+        return user,token
 
-        pass
 
     def authenticate_header(self, request):
         # 验证失败时，返回的响应头WWW-Authenticate对应的值

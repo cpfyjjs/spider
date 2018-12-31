@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'api',
 ]
 
@@ -119,3 +120,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+from rest_framework.settings import settings
+
+# RestFramework 配置
+REST_FRAMEWORK={
+    'UNAUTHENTICATED_USER': None,
+    'UNAUTHENTICATED_TOKEN': None,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        # 配置认证类
+    ],
+    'DEFAULT_PERMISSION_CLASSES':[
+        # 配置权限类
+    ],
+    "DEFAULT_THROTTLE_CLASSES": [
+        # 配置频率限制类
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'wdp_anon': '5/minute',
+        'wdp_user': '10/minute',
+    }
+}
