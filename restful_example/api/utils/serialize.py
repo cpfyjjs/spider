@@ -1,9 +1,7 @@
 import re
 
 from rest_framework import serializers
-from api.models import User,Movie
-from api.models import MovieDetail,Category,Person
-
+from api import models
 
 class PasswordValidator(object):
     def __init__(self,regx):
@@ -35,7 +33,7 @@ class PasswordValidator(object):
 # 用户序列化
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = models.User
         fields = '__all__'
         # fields = ['name','password','user_type']
         # depth =2
@@ -54,7 +52,26 @@ class MoviesSerializer(serializers.Serializer):
     directors = serializers.CharField(min_length=2)
 
 # 电影详情序列化
-class MovieDetailSerialize(serializers.ModelSerializer):
+class MovieDetailSerializer(serializers.ModelSerializer):
+    directors = serializers.SerializerMethodField()
+    category = serializers.CharField(source='category.title')
     class Meta:
-        model = User
-        field = "__all__"
+        model = models.MovieDetail
+        fields = "__all__"
+
+    def get_directors(self,obj):
+        name_lists = obj.directors.all().values_list('name')
+        L =[name for name_list in name_lists for name in name_list]
+        return L
+
+
+
+class PersonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Person
+        fields = "__all__"
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Category
+        fields ="__all__"

@@ -3,12 +3,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import exceptions
 from api.models import User,Token,Movie
+from api.models import MovieDetail,Category,Person
 from api.utils.base import BaseResponse
 from uuid import uuid4
 # Create your views here.
 from api.utils import permissions,auths,serialize
 
 
+
+#
 class LogView(APIView):
     authentication_classes = []
     permission_classes = []
@@ -73,3 +76,30 @@ class MovieView(APIView):
             raise exceptions.NotAuthenticated('嘿嘿')
         raise exceptions.PermissionDenied(detail=message)
 
+
+
+class MovieDetailView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self,request,pk=None):
+        # 获取所有的电影资源
+        if not pk:
+            movies_obj = MovieDetail.objects.all()
+            ser = serialize.MovieDetailSerializer(instance=movies_obj,many=True)
+            return Response(ser.data)
+
+        # 获取主键值为pk的电影详情列表
+        movie_obj = MovieDetail.objects.filter(pk=pk).first()
+        if movie_obj:
+            ser = serialize.MovieDetailSerializer(instance=movie_obj,many=False)
+            return Response(ser.data)
+
+    def post(self,request):
+        pass
+
+    def put(self,request):
+        pass
+
+    def patch(self,request):
+        pass

@@ -3,7 +3,10 @@ from django.urls import re_path
 from api import views
 
 urlpatterns = [
-    path('index/',views.MovieView.as_view()),
+    path('movie/',views.MovieView.as_view()),
+    path('movie_detail/',views.MovieDetailView.as_view()),
+    path('movie_detail/<int:pk>',views.MovieDetailView.as_view()),
+
     path('login/',views.LogView.as_view()),
 
 ]
